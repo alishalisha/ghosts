@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    
+    <!-- Always force latest IE rendering engine or request Chrome Frame -->
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    
+    <!-- Use title if it's in the page YAML frontmatter -->
+    <title><%= current_page.data.title || "Ghosts" %></title>
+    
+    <%= stylesheet_link_tag "normalize", "style" %>
+    <%= javascript_include_tag  "all", "tabletop" %>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script type="text/javascript">
+      window.onload = function() { init() };
+
+      var public_spreadsheet_url = 'https://docs.google.com/spreadsheets/d/1ODJBT1D-QBNbvtyUlgHEEPj9ToOBF0erpniDElcxchc/pubhtml';
+
+      function init() {
+        Tabletop.init( { key: public_spreadsheet_url,
+                         callback: showInfo,
+                         simpleSheet: true } )
+      }
+
+      function showInfo(data, tabletop) {
+        for (var i = 0; i < data.length; i++) {
+          var artist = data[i].artist;
+          var song = data[i].song;
+          $(".playlist").append("<li>" + artist + " - " + song + "</li>");
+        }
+      }
+
+    </script>
+  </head>
+  
+  <body class="<%= page_classes %>">
+    <%= yield %>
+  </body>
+</html>
